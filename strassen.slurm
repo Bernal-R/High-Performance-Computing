@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #SBATCH --job-name=strassen
 #SBATCH --partition=nu
 #SBATCH --nodes=1

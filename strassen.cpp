@@ -10,7 +10,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "timer.h"
-#include "/usr/local/opt/libomp/include/omp.h"
+#include <omp.h>
 #include <iostream>
 #include "io.h"
 #include <vector> 
@@ -130,7 +130,7 @@ void strassen(int **A, int **B, int **C, int N) {
     }
 
     // Construir C
-    
+
     #pragma omp taskwait
     sum(M3, M5, c12, new_size);
     sum(M2, M4, c21, new_size); 
