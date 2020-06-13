@@ -89,20 +89,40 @@ void strassen(int **A, int **B, int **C, int N) {
 {
 #pragma omp single
         {
+            //M1
+            #pragma omp task
             sum(a11, a22, aResult, new_size);
             sum(b11, b22, bResult, new_size);
             multiplication(aResult, bResult, M1, new_size);
+
+            //M2
+            #pragma omp task
             sum(a21, a22, aResult, new_size); 
             multiplication(aResult, b11, M2, new_size);
+
+            //M3
+            #pragma omp task
             subtraction(b12, b22, bResult, new_size);     
             multiplication(a11, bResult, M3, new_size);
+
+            //M4
+            #pragma omp task
             subtraction(b21, b11, bResult, new_size);     
             multiplication(a22, bResult, M4, new_size);
+
+            //M5
+            #pragma omp task
             sum(a11, a12, aResult, new_size);    
             multiplication(aResult, b22, M5, new_size);
+
+            //M6
+            #pragma omp task
             subtraction(a21, a11, aResult, new_size);     
             sum(b11, b12, bResult, new_size);
             multiplication(aResult, bResult, M6, new_size);
+
+            //M7
+            #pragma omp task
             subtraction(a12, a22, aResult, new_size);     
             sum(b21, b22, bResult, new_size);
             multiplication(aResult, bResult, M7, new_size);
@@ -110,6 +130,8 @@ void strassen(int **A, int **B, int **C, int N) {
     }
 
     // Construir C
+    
+    #pragma omp taskwait
     sum(M3, M5, c12, new_size);
     sum(M2, M4, c21, new_size); 
     sum(M1, M4, aResult, new_size);      
